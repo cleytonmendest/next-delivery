@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import Button from '../../components/Button'
 import Header from '../../components/Header'
 import InputField from '../../components/InputField'
-import { useAppContext } from '../../contexts/AppContext'
+import { useAppContext } from '../../contexts/app'
 import { useApi } from '../../libs/useApi'
 import styles from '../../styles/Forget.module.css'
 import { Tenant } from '../../types/Tenant'
@@ -82,10 +82,10 @@ type Props = {
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query
-  const api = useApi()
+  const api = useApi(tenantSlug as string)
 
   //Get Tenant
-  const tenant = await api.getTenant(tenantSlug as string)
+  const tenant = await api.getTenant()
 
   if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }

@@ -27,7 +27,8 @@ const Header = ({ backHref, color, title, subtitle, invert }: Props) => {
             style={{color: invert ? '#fff' : '#1b1b1b'}}
           >
             {title}
-          </div>}
+          </div>
+          }
         {subtitle && <div className={styles.subtitle}>{subtitle}</div>}
       </div>
       <div className={styles.rightSide}></div>

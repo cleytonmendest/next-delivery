@@ -1,4 +1,3 @@
-import { type } from 'os'
 import MailSent from './MailSent.svg'
 
 type Props ={
