@@ -19,16 +19,18 @@ const ForgetSucess = (data: Props) => {
 
   useEffect(() => {
     setTenant(data.tenant)
-  }, [data.tenant, setTenant])
+  }, [])
 
   const handleSubmit = () => {
     router.push(`/${tenant?.slug}/login`)
   }
 
+  const title = `Esqueci a Senha | ${tenant?.name}`
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Esqueci a Senha | {tenant?.name}</title>
+        <title>{title}</title>
       </Head>
       <Header
         color={tenant?.primaryColor as string}

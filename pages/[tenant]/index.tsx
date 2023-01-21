@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { GetServerSideProps } from 'next'
+import { getCookie } from 'cookies-next';
 import { useEffect, useState } from 'react'
 import Banner from '../../components/Banner'
 import ProductItem from '../../components/ProductItem'
@@ -11,16 +12,21 @@ import { useApi } from '../../libs/useApi'
 import styles from '../../styles/Home.module.css'
 import { Product } from '../../types/Product'
 import { Tenant } from '../../types/Tenant'
+import { User } from '../../types/User';
+import { useAuthContext } from '../../contexts/auth';
 
 
 const Home = (data: Props) => {
+  const {setToken, setUser} = useAuthContext()
   const { tenant, setTenant } = useAppContext()
   const [sideBarOpen, setSideBarOpen] = useState(false)
   const [products, setProducts] = useState<Product[]>(data.products)
 
   useEffect(() => {
     setTenant(data.tenant)
-  }, [data.tenant, setTenant])
+    setToken(data.token)
+    if(data.user) setUser(data.user)
+  }, [])
 
 
   const handleSearch = (searchValue: string) => {
@@ -75,8 +81,10 @@ const Home = (data: Props) => {
 
 export default Home
 type Props = {
-  tenant: Tenant,
+  tenant: Tenant
   products: Product[]
+  token: string
+  user: User | null
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query
@@ -89,13 +97,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { redirect: { destination: '/', permanent: false } }
   }
 
+  // Get Logged user
+  //const token = context.req.cookies.token
+  const token = getCookie('token', context) ? getCookie('token', context) : null
+  console.log(getCookie('token', context), "Token aqui")
+  const user = await api.authorizaToken(token as string)
+
   //Get products
   const products = await api.getAllProducts()
 
   return {
     props: {
       tenant,
-      products
+      products,
+      user,
+      token
     }
   }
 }

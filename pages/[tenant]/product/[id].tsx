@@ -22,7 +22,7 @@ const Product = (data: Props) => {
 
     useEffect(() => {
         setTenant(data.tenant)
-    }, [data.tenant, setTenant])
+    }, [])
 
     const handleAddToCart = () =>{
         
@@ -31,11 +31,12 @@ const Product = (data: Props) => {
     const handleUpdateQt = (newCount:number) =>{
         setQtCount(newCount)
     }
+    
 
     return (
         <div className={styles.container}>
             <Head>
-                <title>{data.product.name} | {tenant?.name}</title>
+                <title>{`${data.product.name} | ${tenant?.name}`}</title>
             </Head>
 
             <div className={styles.headerArea}>

@@ -23,7 +23,7 @@ const SignUp = (data: Props) => {
 
   useEffect(() => {
     setTenant(data.tenant)
-  }, [data.tenant, setTenant])
+  }, [])
 
   const handleSubmit = () => {
 
@@ -32,7 +32,7 @@ const SignUp = (data: Props) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Cadastro | {tenant?.name}</title>
+        <title>{`Cadastro | ${tenant?.name}`}</title>
       </Head>
       <Header
         color={tenant?.primaryColor as string}

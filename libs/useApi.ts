@@ -1,5 +1,6 @@
 import { Product } from "../types/Product"
 import { Tenant } from "../types/Tenant"
+import { User } from "../types/User"
 
 
 const TEMPORARYoneProduct:Product ={
@@ -18,15 +19,15 @@ export const useApi = (tenantSlug: string) => ({
                 return {
                     slug:'b7burguer',
                     name: 'B7Burger',
-                    primaryColor: '#FF0000',
-                    secondaryColor: '#00FF00'
+                    primaryColor: '#FB9400',
+                    secondaryColor: '#FFF9F2'
                 }
             case 'b7pizza':
                 return {
                     slug:'b7pizza',
                     name: 'B7Pizza',
-                    primaryColor: '#0000FF',
-                    secondaryColor: '#FF0000'
+                    primaryColor: '#6AB70A',
+                    secondaryColor: 'E0E0E0'
                 }
             default: return false
         }
@@ -42,5 +43,14 @@ export const useApi = (tenantSlug: string) => ({
 
     getProduct: async (id: string) =>{
         return TEMPORARYoneProduct
+    },
+
+    authorizaToken: async (token: string): Promise<User | false> =>{
+        if(!token) return false
+
+        return{
+            name:"Jamanta",
+            email: 'teste@teste.com'
+        }
     }
 })

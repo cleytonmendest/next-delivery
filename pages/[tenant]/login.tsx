@@ -9,6 +9,7 @@ import Button from '../../components/Button'
 import Header from '../../components/Header'
 import InputField from '../../components/InputField'
 import { useAppContext } from '../../contexts/app'
+import { useAuthContext } from '../../contexts/auth'
 import { useApi } from '../../libs/useApi'
 import styles from '../../styles/Login.module.css'
 import { Tenant } from '../../types/Tenant'
@@ -19,21 +20,30 @@ const Login = (data: Props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
+  const {setToken, setUser} = useAuthContext()
 
   useEffect(() => {
     setTenant(data.tenant)
-  }, [data.tenant, setTenant])
+  }, [])
 
   const handleSubmit = () => {
+    setToken('1234')
+    setUser({
+      name:'Doidão',
+      email: 'tonemai@email.com'
+    })
 
+    router.push(`/${data.tenant.slug}`)
   }
 
   const handleSignup = () => router.push(`/${tenant?.slug}/signup`)
 
+  const title = `Login | ${tenant?.name}`
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Login | {tenant?.name}</title>
+        <title>{title}</title>
       </Head>
       <Header
         color={tenant?.primaryColor as string}
