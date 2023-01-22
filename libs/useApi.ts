@@ -1,3 +1,4 @@
+import { CartItem } from "../types/CartItem"
 import { Product } from "../types/Product"
 import { Tenant } from "../types/Tenant"
 import { User } from "../types/User"
@@ -17,7 +18,7 @@ export const useApi = (tenantSlug: string) => ({
         switch (tenantSlug) {
             case 'b7burger':
                 return {
-                    slug:'b7burguer',
+                    slug:'b7burger',
                     name: 'B7Burger',
                     primaryColor: '#FB9400',
                     secondaryColor: '#FFF9F2'
@@ -36,13 +37,16 @@ export const useApi = (tenantSlug: string) => ({
     getAllProducts: async () => {
         let products = []
         for(let q = 0; q < 10; q++){
-            products.push(TEMPORARYoneProduct)
+            products.push({
+                ...TEMPORARYoneProduct,
+                id: q + 1
+            })
         }
         return products
     },
 
-    getProduct: async (id: string) =>{
-        return TEMPORARYoneProduct
+    getProduct: async (id: number) =>{
+        return {...TEMPORARYoneProduct, id}
     },
 
     authorizaToken: async (token: string): Promise<User | false> =>{
@@ -52,5 +56,24 @@ export const useApi = (tenantSlug: string) => ({
             name:"Jamanta",
             email: 'teste@teste.com'
         }
+    },
+    getCartProducts: async(cartCookie: string) => {
+        let cart: CartItem[] = []
+            if(!cartCookie) return cart
+
+            const cartJson = JSON.parse(cartCookie)
+            for(let i in cartJson){
+                if(cartJson[i].id && cartJson[i].qt){
+                    const product ={
+                        ...TEMPORARYoneProduct,
+                        id: cartJson[i].id
+                    }
+                    cart.push({
+                        qt: cartJson[i].qt,
+                        product
+                    })
+                }
+            }
+        return cart
     }
 })
