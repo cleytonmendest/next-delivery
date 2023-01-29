@@ -54,7 +54,7 @@ const Cart = (data: Props) => {
   }
 
   const handleFinish = () => {
-    router.push(`${data.tenant.slug}/checkout`)
+    router.push(`/${data.tenant.slug}/checkout`)
   }
 
   const handleCartChange = (newCount: number, id:number) =>{
