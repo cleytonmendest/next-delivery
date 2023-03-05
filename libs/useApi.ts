@@ -1,3 +1,4 @@
+import { Adress } from "../types/Adress"
 import { CartItem } from "../types/CartItem"
 import { Product } from "../types/Product"
 import { Tenant } from "../types/Tenant"
@@ -75,5 +76,26 @@ export const useApi = (tenantSlug: string) => ({
                 }
             }
         return cart
+    },
+    getUserAdresses: async(email: string)=>{
+        const adresses: Adress[] = []
+
+        for(let i = 0; i < 4; i++){
+            adresses.push({
+                id: i + 1,
+                cep: "9999999",
+                street: "Rua da Cebola",
+                number: `${i + 1}00`,
+                neighborhood: "fodase",
+                city: "São pela",
+                state: "RJ"
+            })
+        }
+
+        return adresses
+    },
+
+    getShippingPrice: async (address: Adress) =>{
+        return 9.16
     }
 })

@@ -1,4 +1,4 @@
-import { createContext, use, useReducer } from "react"
+import { createContext, useReducer } from "react"
 import { reducer } from "./reducer"
 import { ContextType, DataType, ProviderType } from "./types"
 

@@ -9,7 +9,7 @@ import styles from '../../styles/Checkout.module.css'
 import { Tenant } from '../../types/Tenant'
 import { User } from '../../types/User';
 import { useAuthContext } from '../../contexts/auth';
-import NoItems from '../../public/assets/noProductsIcon.svg'
+// import NoItems from '../../public/assets/noProductsIcon.svg'
 import Head from 'next/head';
 import Header from '../../components/Header';
 import InputField from '../../components/InputField';
@@ -18,22 +18,20 @@ import { useFormatter } from '../../libs/useFormatter';
 import { CartItem } from '../../types/CartItem';
 import { useRouter } from 'next/router';
 import CartProductItem from '../../components/CartProductItem';
-import { CartCookie } from '../../types/CartCookie';
+// import { CartCookie } from '../../types/CartCookie';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
-import { Adress } from '../../types/Adress';
+// import { Adress } from '../../types/Adress';
 
 
 const Checkout = (data: Props) => {
   const formater = useFormatter()
   const { setToken, setUser } = useAuthContext()
-  const { tenant, setTenant } = useAppContext()
-  const [shippingPrice, setShippingPrice] = useState(0)
+  const { tenant, setTenant, shippingAddress, shippingPrice } = useAppContext()
   const [cupom, setCupom] = useState('')
   const [cupomDiscount, setCupomDiscount] = useState(0)
   const [cupomInput, setCupomInput] = useState('')
   const [paymentChange, setPaymentChange] = useState(0)
   const [paymentType, setPaymentType] = useState<'money' | 'card'>('money')
-  const [shippingAdress, setshippingAdress] = useState<Adress>()
   const [subtotal, setSubtotal] = useState(0)
   const [cart, setCart] = useState<CartItem[]>(data.cart)
   const router = useRouter()
@@ -53,17 +51,7 @@ const Checkout = (data: Props) => {
   }, [cart])
 
   const handleChangeAdress = () => {
-    // router.push(`/${data.tenant.slug}/myaddresses`)
-    setshippingAdress({
-      id: 1,
-      cep: '99999-99',
-      street: "Rua da Macumba",
-      number: '3232',
-      city: "opora",
-      neighborhood: "opora",
-      state: "RJIO",
-    })
-    setShippingPrice(9.50)
+    router.push(`/${data.tenant.slug}/myaddresses`)
   }
 
   const handleSetCupom = () => {
@@ -96,8 +84,8 @@ const Checkout = (data: Props) => {
               color={data.tenant.primaryColor}
               leftIcon={"location"}
               rightIcon={'rightArrow'}
-              label={shippingAdress ?
-                `${shippingAdress.street} ${shippingAdress.number} - ${shippingAdress.city}`
+              label={shippingAddress ?
+                `${shippingAddress.street} ${shippingAddress.number} - ${shippingAddress.city}`
                 :
                 "Escolha um Endereço"
               }
@@ -227,7 +215,7 @@ const Checkout = (data: Props) => {
             label='Finalizar Pedido'
             onClick={handleFinish}
             fill
-            disabled={!shippingAdress}
+            disabled={!shippingAddress}
           />
         </div>
       </div>
