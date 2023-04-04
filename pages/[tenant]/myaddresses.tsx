@@ -13,7 +13,6 @@ import { useAuthContext } from '../../contexts/auth';
 import Head from 'next/head';
 import Header from '../../components/Header';
 import { useFormatter } from '../../libs/useFormatter';
-import { CartItem } from '../../types/CartItem';
 import { useRouter } from 'next/router';
 import Button from '../../components/Button';
 import { Adress } from '../../types/Adress';
@@ -34,10 +33,6 @@ const MyAdresses = (data: Props) => {
     if (data.user) setUser(data.user)
   }, [])
 
-  const handleNewAdress = () => {
-    router.push(`/${data.tenant.slug}/newadress`)
-  }
-
   const handleAddressSelect = async (adress: Adress) =>{
     const price = await api.getShippingPrice(adress)
     if(price){
@@ -48,11 +43,15 @@ const MyAdresses = (data: Props) => {
   }
 
   const handleAddressEdit = (id: number) =>{
-    
+    router.push(`/${data.tenant.slug}/address/${id}`)
   }
 
   const handleAddressDelete = (id: number) =>{
     
+  }
+
+  const handleNewAdress = () => {
+    router.push(`/${data.tenant.slug}/address/new`)
   }
 
   // Menu Events
