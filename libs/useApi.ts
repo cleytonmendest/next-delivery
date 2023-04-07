@@ -5,7 +5,7 @@ import { Tenant } from "../types/Tenant"
 import { User } from "../types/User"
 
 
-const TEMPORARYoneProduct:Product ={
+const TEMPORARYoneProduct: Product = {
     id: 1,
     categoryName: 'Tradicional',
     price: 25.5,
@@ -19,14 +19,14 @@ export const useApi = (tenantSlug: string) => ({
         switch (tenantSlug) {
             case 'b7burger':
                 return {
-                    slug:'b7burger',
+                    slug: 'b7burger',
                     name: 'B7Burger',
                     primaryColor: '#FB9400',
                     secondaryColor: '#FFF9F2'
                 }
             case 'b7pizza':
                 return {
-                    slug:'b7pizza',
+                    slug: 'b7pizza',
                     name: 'B7Pizza',
                     primaryColor: '#6AB70A',
                     secondaryColor: 'E0E0E0'
@@ -37,7 +37,7 @@ export const useApi = (tenantSlug: string) => ({
 
     getAllProducts: async () => {
         let products = []
-        for(let q = 0; q < 10; q++){
+        for (let q = 0; q < 10; q++) {
             products.push({
                 ...TEMPORARYoneProduct,
                 id: q + 1
@@ -46,41 +46,54 @@ export const useApi = (tenantSlug: string) => ({
         return products
     },
 
-    getProduct: async (id: number) =>{
-        return {...TEMPORARYoneProduct, id}
+    getProduct: async (id: number) => {
+        return { ...TEMPORARYoneProduct, id }
     },
 
-    authorizaToken: async (token: string): Promise<User | false> =>{
-        if(!token) return false
+    authorizaToken: async (token: string): Promise<User | false> => {
+        if (!token) return false
 
-        return{
-            name:"Jamanta",
+        return {
+            name: "Jamanta",
             email: 'teste@teste.com'
         }
     },
-    getCartProducts: async(cartCookie: string) => {
+    getCartProducts: async (cartCookie: string) => {
         let cart: CartItem[] = []
-            if(!cartCookie) return cart
+        if (!cartCookie) return cart
 
-            const cartJson = JSON.parse(cartCookie)
-            for(let i in cartJson){
-                if(cartJson[i].id && cartJson[i].qt){
-                    const product ={
-                        ...TEMPORARYoneProduct,
-                        id: cartJson[i].id
-                    }
-                    cart.push({
-                        qt: cartJson[i].qt,
-                        product
-                    })
+        const cartJson = JSON.parse(cartCookie)
+        for (let i in cartJson) {
+            if (cartJson[i].id && cartJson[i].qt) {
+                const product = {
+                    ...TEMPORARYoneProduct,
+                    id: cartJson[i].id
                 }
+                cart.push({
+                    qt: cartJson[i].qt,
+                    product
+                })
             }
+        }
         return cart
     },
-    getUserAdresses: async(email: string)=>{
+    getUserAddress: async (addressid: number) => {
+        const address: Adress = {
+            id: addressid,
+            cep: "9999999",
+            street: "Rua da Cebola",
+            number: `${addressid}00`,
+            neighborhood: "fodase",
+            city: "São pela",
+            state: "RJ"
+        }
+
+        return address
+    },
+    getUserAdresses: async (email: string) => {
         const adresses: Adress[] = []
 
-        for(let i = 0; i < 4; i++){
+        for (let i = 0; i < 4; i++) {
             adresses.push({
                 id: i + 1,
                 cep: "9999999",
@@ -96,10 +109,14 @@ export const useApi = (tenantSlug: string) => ({
     },
 
     addUserAddress: async (address: Adress) => {
-        return {...address, id: 9}
+        return { ...address, id: 9 }
     },
 
-    getShippingPrice: async (address: Adress) =>{
+    editUserAddress: async (newAddress: Adress) =>{
+        return true;
+    },
+
+    getShippingPrice: async (address: Adress) => {
         return 9.16
     }
 })
