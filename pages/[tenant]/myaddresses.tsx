@@ -46,8 +46,9 @@ const MyAdresses = (data: Props) => {
     router.push(`/${data.tenant.slug}/address/${id}`)
   }
 
-  const handleAddressDelete = (id: number) =>{
-    
+  const handleAddressDelete = async (id: number) =>{
+    await api.deleteUserAddress(id)
+    router.reload()
   }
 
   const handleNewAdress = () => {

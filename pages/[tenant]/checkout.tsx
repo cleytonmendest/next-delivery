@@ -35,6 +35,7 @@ const Checkout = (data: Props) => {
   const [subtotal, setSubtotal] = useState(0)
   const [cart, setCart] = useState<CartItem[]>(data.cart)
   const router = useRouter()
+  const api = useApi(data.tenant.slug)
 
   useEffect(() => {
     setTenant(data.tenant)
@@ -61,8 +62,21 @@ const Checkout = (data: Props) => {
     }
   }
 
-  const handleFinish = () => {
-
+  const handleFinish = async () => {
+    if(shippingAddress){
+      const order = await api.setOrder(
+        shippingAddress,
+        paymentType,
+        paymentChange,
+        cupom,
+        data.cart
+      )
+      if(order){
+        router.push(`/${data.tenant.slug}/order/${order.id}`)
+      }else{
+        alert('Ocorreu um erro! Tente novamente mais tarde!')
+      }
+    }
   }
 
   return (

@@ -1,5 +1,7 @@
+import OrderId from "../pages/[tenant]/order/[orderid]"
 import { Adress } from "../types/Adress"
 import { CartItem } from "../types/CartItem"
+import { Order } from "../types/Order"
 import { Product } from "../types/Product"
 import { Tenant } from "../types/Tenant"
 import { User } from "../types/User"
@@ -12,6 +14,33 @@ const TEMPORARYoneProduct: Product = {
     name: 'Texas Burger',
     image: '/temp/burger.png',
     description: '2 blend queijo molho especial cebola picles e pão com gergilin'
+}
+
+const TEMPORARYorder: Order = {
+    id: 123,
+    status: 'preparing',
+    orderDate: '2023-01-01',
+    userId: '123',
+    shippingAddress:{
+        id: 2,
+        street: 'Rua do Neto',
+        number: '200',
+        cep: '59552300',
+        city: 'Rio de Janeiro',
+        neighborhood: 'Jardins',
+        state: 'RJ'
+    },
+    shippingPrice: 9.14,
+    paymentType: "card",
+    cupom: 'Alow',
+    cupomDiscount: 14.3,
+    products: [
+        {product: {...TEMPORARYoneProduct, id: 1}, qt: 1},
+        {product: {...TEMPORARYoneProduct, id: 2}, qt: 2},
+        {product: {...TEMPORARYoneProduct, id: 3}, qt: 1}
+    ],
+    subtotal: 204,
+    total: 198.84
 }
 
 export const useApi = (tenantSlug: string) => ({
@@ -116,7 +145,25 @@ export const useApi = (tenantSlug: string) => ({
         return true;
     },
 
+    deleteUserAddress: async (addressId:number) =>{
+        return true
+    },
+
     getShippingPrice: async (address: Adress) => {
         return 9.16
+    },
+
+    setOrder: async (
+        address: Adress,
+        paymentType: 'money' | 'card',
+        paymentChange: number,
+        cupom: string,
+        cart: CartItem[]
+    ) =>{
+        return TEMPORARYorder;
+    },
+
+    getOrder: async (orderid: number) => {
+        return TEMPORARYorder
     }
 })
