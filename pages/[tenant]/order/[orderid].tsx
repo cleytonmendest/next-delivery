@@ -37,6 +37,14 @@ const OrderId = (data: Props) => {
         if (data.user) setUser(data.user)
     }, [])
 
+    useEffect(()=>{
+        if(data.order.status !== 'delivered'){
+            setTimeout(()=>{
+                router.reload()
+            }, 60000)
+        }
+    }, [])
+
     const orderStatusList = {
         preparing: {
             label: 'Preparando',
@@ -73,6 +81,26 @@ const OrderId = (data: Props) => {
                 color={data.tenant.primaryColor}
                 title={`Pedido #${data.order.id}`}
             />
+
+            {data.order.status !== 'delivered' &&
+                <div
+                    className={styles.statusArea}
+                    style={{backgroundColor: orderStatusList[data.order.status].bgColor, color: orderStatusList[data.order.status].color}}
+                >
+                    <div className={styles.statusLongLabel}>
+                        {orderStatusList[data.order.status].longLabel}
+                    </div>
+                    <div className={styles.statusPct}>
+                        <div
+                            className={styles.statusPctBar}
+                            style={{backgroundColor: orderStatusList[data.order.status].color, width: `${orderStatusList[data.order.status].pct}%`}}
+                        />
+                    </div>
+                    <div className={styles.statusMsg}>
+                        Aguardando mudança de status...
+                    </div>
+                </div>
+            }
 
             <div className={styles.orderInfoArea}>
                 <div className={styles.orderInfoStatus} style={{backgroundColor: orderStatusList[data.order.status].bgColor, color: orderStatusList[data.order.status].color}}>
