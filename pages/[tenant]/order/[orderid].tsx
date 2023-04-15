@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import { GetServerSideProps } from 'next'
@@ -36,6 +37,30 @@ const OrderId = (data: Props) => {
         if (data.user) setUser(data.user)
     }, [])
 
+    const orderStatusList = {
+        preparing: {
+            label: 'Preparando',
+            longLabel: 'Preparando o seu pedido...',
+            bgColor: '#FEFAE6',
+            color: '#D4BC34',
+            pct: 25
+        },
+        sent: {
+            label: 'Enviado',
+            longLabel: 'Enviamos o seu pedido...',
+            bgColor: '#F1F3F8',
+            color: '#758CBD',
+            pct: 75
+        },
+        delivered: {
+            label: 'Entregue',
+            longLabel: 'Seu pedido foi entregue',
+            bgColor: '#F1F8F6',
+            color: '#6AB70A',
+            pct: 100
+        }
+    }
+
 
     return (
         <div className={styles.container}>
@@ -48,6 +73,32 @@ const OrderId = (data: Props) => {
                 color={data.tenant.primaryColor}
                 title={`Pedido #${data.order.id}`}
             />
+
+            <div className={styles.orderInfoArea}>
+                <div className={styles.orderInfoStatus} style={{backgroundColor: orderStatusList[data.order.status].bgColor, color: orderStatusList[data.order.status].color}}>
+                    {orderStatusList[data.order.status].label}
+                </div>
+                <div className={styles.orderInfoQt}>
+                    {data.order.products.length} {data.order.products.length === 1 ? 'item' : 'itens'}
+                </div>
+                <div className={styles.orderInfoDate}>
+                    {formater.formatDate(data.order.orderDate)}
+                </div>
+            </div>
+
+            <div className={styles.productList}>
+                {data.order.products.map((cartItem, index) => (
+                    <CartProductItem
+                        key={index}
+                        color={data.tenant.primaryColor}
+                        quantity={cartItem.qt}
+                        product={cartItem.product}
+                        onChange={() => { }}
+                        noEdit
+                    />
+                ))}
+            </div>
+
             <div className={styles.infoGroup}>
                 <div className={styles.infoArea}>
                     <div className={styles.infoTitle}>Endereço</div>
@@ -112,23 +163,6 @@ const OrderId = (data: Props) => {
                         </div>
                     </div>
                 }
-            </div>
-
-            <div className={styles.productsQuantity}>
-                {data.order.products.length} {data.order.products.length === 1 ? 'item' : 'itens'}
-            </div>
-
-            <div className={styles.productList}>
-                {data.order.products.map((cartItem, index) => (
-                    <CartProductItem
-                        key={index}
-                        color={data.tenant.primaryColor}
-                        quantity={cartItem.qt}
-                        product={cartItem.product}
-                        onChange={() => { }}
-                        noEdit
-                    />
-                ))}
             </div>
 
             <div className={styles.resumeArea}>
