@@ -5,7 +5,7 @@ import { getCookie, setCookie } from 'cookies-next';
 import { useEffect, useState } from 'react'
 import { useAppContext } from '../../contexts/app'
 import { useApi } from '../../libs/useApi'
-import styles from '../../styles/Cart.module.css'
+import styles from '../../styles/Cart.module.scss'
 import { Tenant } from '../../types/Tenant'
 import { User } from '../../types/User';
 import { useAuthContext } from '../../contexts/auth';

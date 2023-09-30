@@ -9,7 +9,7 @@ import SearchInput from '../../components/SearchInput'
 import SideBar from '../../components/SideBar'
 import { useAppContext } from '../../contexts/app'
 import { useApi } from '../../libs/useApi'
-import styles from '../../styles/Home.module.css'
+import styles from '../../styles/Home.module.scss'
 import { Product } from '../../types/Product'
 import { Tenant } from '../../types/Tenant'
 import { User } from '../../types/User';
